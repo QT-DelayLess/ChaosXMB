@@ -1,0 +1,192 @@
+<Window xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:models="clr-namespace:ChaosXMB.Models" xmlns:controls="clr-namespace:ChaosXMB.Controls" x:Class="ChaosXMB.MainWindow" Title="ChaosXMB" Width="1600" Height="900" MinWidth="1000" MinHeight="650" WindowStyle="None" WindowState="Maximized" Background="#07101D" Foreground="White" PreviewKeyDown="Window_PreviewKeyDown" Loaded="Window_Loaded" Closed="Window_Closed" UseLayoutRounding="True" TextOptions.TextFormattingMode="Ideal">
+    <Window.Resources>
+        <BooleanToVisibilityConverter x:Key="BoolVisible"/>
+        <CubicEase x:Key="Ease" EasingMode="EaseOut"/><Style x:Key="CategoryPresenter" TargetType="ContentPresenter">
+            <Setter Property="Canvas.Left" Value="{Binding Left}"/>
+            <Setter Property="Canvas.Top" Value="0"/>
+        </Style>
+        <DataTemplate DataType="{x:Type models:NavCategory}">
+            <Border Width="280" Height="100" Background="Transparent" MouseLeftButtonUp="Category_MouseLeftButtonUp" Cursor="Hand">
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="Opacity" Value="0.39"/>
+                        <Setter Property="RenderTransformOrigin" Value="0,0.5"/>
+                        <Setter Property="RenderTransform"><Setter.Value><ScaleTransform ScaleX="0.88" ScaleY="0.88"/></Setter.Value></Setter>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                <DataTrigger.EnterActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.19" EasingFunction="{StaticResource Ease}"/><DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="1.07" Duration="0:0:0.19" EasingFunction="{StaticResource Ease}"/><DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="1.07" Duration="0:0:0.19" EasingFunction="{StaticResource Ease}"/></Storyboard></BeginStoryboard></DataTrigger.EnterActions><DataTrigger.ExitActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetProperty="Opacity" To="0.39" Duration="0:0:0.19" EasingFunction="{StaticResource Ease}"/><DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="0.88" Duration="0:0:0.19" EasingFunction="{StaticResource Ease}"/><DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="0.88" Duration="0:0:0.19" EasingFunction="{StaticResource Ease}"/></Storyboard></BeginStoryboard></DataTrigger.ExitActions></DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <TextBlock Text="{Binding Symbol}" FontFamily="Segoe UI Symbol" FontSize="39" VerticalAlignment="Center" Foreground="#C8E6F8" Margin="0,0,16,0"/>
+                    <TextBlock Text="{Binding Title}" VerticalAlignment="Center" FontSize="29" FontWeight="Light" Foreground="#E8F5FF"/>
+                </StackPanel>
+                </Border>
+        </DataTemplate>
+        <!-- Each row: 88px item + 6px margin = 94px focus spacing. -->
+        <Style x:Key="NavPresenter" TargetType="ContentPresenter">
+            <Setter Property="Margin" Value="0,0,0,6"/>
+        </Style>
+        <DataTemplate DataType="{x:Type models:NavItem}">
+            <Border Width="670" Height="88" Background="Transparent" Cursor="Hand" MouseLeftButtonUp="NavItem_MouseLeftButtonUp" RenderTransformOrigin="0,0.5">
+                <Border.Style>
+                    <Style TargetType="Border">
+                        <Setter Property="Opacity" Value="0.57"/>
+                        <Setter Property="RenderTransform"><Setter.Value><ScaleTransform ScaleX="0.96" ScaleY="0.96"/></Setter.Value></Setter>
+                        <Style.Triggers>
+                            <DataTrigger Binding="{Binding IsSelected}" Value="True">
+                                <DataTrigger.EnterActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetProperty="Opacity" To="1" Duration="0:0:0.19" EasingFunction="{StaticResource Ease}"/><DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="1.065" Duration="0:0:0.19" EasingFunction="{StaticResource Ease}"/><DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="1.065" Duration="0:0:0.19" EasingFunction="{StaticResource Ease}"/></Storyboard></BeginStoryboard></DataTrigger.EnterActions><DataTrigger.ExitActions><BeginStoryboard><Storyboard><DoubleAnimation Storyboard.TargetProperty="Opacity" To="0.57" Duration="0:0:0.19" EasingFunction="{StaticResource Ease}"/><DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleX)" To="0.96" Duration="0:0:0.19" EasingFunction="{StaticResource Ease}"/><DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(ScaleTransform.ScaleY)" To="0.96" Duration="0:0:0.19" EasingFunction="{StaticResource Ease}"/></Storyboard></BeginStoryboard></DataTrigger.ExitActions></DataTrigger>
+                        </Style.Triggers>
+                    </Style>
+                </Border.Style>
+            <Grid Margin="5,4,8,4">
+                    <Border x:Name="Highlight" Background="#385787A4" CornerRadius="7" BorderThickness="1" BorderBrush="#6077C5F0"><Border.Style><Style TargetType="Border"><Setter Property="Opacity" Value="0"/><Style.Triggers><DataTrigger Binding="{Binding IsSelected}" Value="True"><Setter Property="Opacity" Value="0.65"/></DataTrigger></Style.Triggers></Style></Border.Style></Border>
+                    <StackPanel Orientation="Horizontal" VerticalAlignment="Center" Margin="12,0">
+                        <Grid Width="58" Height="70" Margin="0,0,19,0">
+                            <Border Background="#35457C9B" CornerRadius="4"/>
+                            <TextBlock Text="{Binding Symbol}" FontFamily="Segoe UI Symbol" FontSize="24" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#CDE7FA"/>
+                            <Image Source="{Binding Thumbnail}" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality"/>
+                        </Grid>
+                        <StackPanel VerticalAlignment="Center" Width="500">
+                            <TextBlock Text="{Binding Title}" FontSize="25" FontWeight="Light" Foreground="#F0F8FF" TextTrimming="CharacterEllipsis"/>
+                            <TextBlock Text="{Binding Subtitle}" FontSize="13" Foreground="#A9C1D2" TextTrimming="CharacterEllipsis" Margin="0,5,0,0"/>
+                        </StackPanel>
+                    </StackPanel>
+                </Grid>
+                </Border>
+        </DataTemplate>
+    </Window.Resources>
+
+    <Grid x:Name="Root" ClipToBounds="True" SizeChanged="Root_SizeChanged">
+        <!-- Two reusable image layers. No per-frame object creation. -->
+        <Image x:Name="BgImageA" Stretch="UniformToFill" Opacity="0" IsHitTestVisible="False" RenderOptions.BitmapScalingMode="LowQuality">
+            <Image.RenderTransform><TransformGroup><ScaleTransform x:Name="BgScaleA" ScaleX="1.035" ScaleY="1.035"/><TranslateTransform x:Name="BgMoveA"/></TransformGroup></Image.RenderTransform>
+        </Image>
+        <Image x:Name="BgImageB" Stretch="UniformToFill" Opacity="0" IsHitTestVisible="False" RenderOptions.BitmapScalingMode="LowQuality">
+            <Image.RenderTransform><TransformGroup><ScaleTransform x:Name="BgScaleB" ScaleX="1.035" ScaleY="1.035"/><TranslateTransform x:Name="BgMoveB"/></TransformGroup></Image.RenderTransform>
+        </Image>
+        <Rectangle IsHitTestVisible="False">
+            <Rectangle.Fill>
+                <RadialGradientBrush Center="0.63,0.42" GradientOrigin="0.68,0.38" RadiusX="1.1" RadiusY="1.1">
+                    <GradientStop Color="#B00B3556" Offset="0"/><GradientStop Color="#CF081B31" Offset="0.58"/><GradientStop Color="#F2060E1A" Offset="1"/>
+                </RadialGradientBrush>
+            </Rectangle.Fill>
+        </Rectangle>
+        <controls:WaveRenderer x:Name="WaveHost" Opacity="0.78" IsHitTestVisible="False"/>
+        <Rectangle Fill="#18020A15" IsHitTestVisible="False"/>
+
+        <!-- Header remains stationary. XMB content animates independently. -->
+        <Grid VerticalAlignment="Top" Margin="58,42,64,0" Height="57">
+            <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock Text="CHAOS" Foreground="#EAF9FF" FontSize="23" FontWeight="Bold"/>
+                <TextBlock Text="XMB" Foreground="#76D6FF" FontSize="23" FontWeight="Light" Margin="3,0,0,0"/>
+                <TextBlock Text=" / CONSOLE EXPERIENCE" Foreground="#7FAAC7" FontSize="12" VerticalAlignment="Bottom" Margin="15,0,0,7"/>
+            </StackPanel>
+            <StackPanel HorizontalAlignment="Right" Orientation="Horizontal" VerticalAlignment="Center">
+                <TextBlock x:Name="ClockText" FontSize="22" FontWeight="Light" Foreground="#EAF5FF"/>
+                <TextBlock Text="  ◦  " Foreground="#79B2D5" FontSize="23"/>
+                <TextBlock x:Name="DateText" FontSize="16" VerticalAlignment="Center" Foreground="#ABC5D8"/>
+            </StackPanel>
+        </Grid>
+
+        <TextBlock x:Name="FpsText" Visibility="Collapsed" HorizontalAlignment="Right" VerticalAlignment="Top"
+                   Margin="0,108,65,0" Foreground="#A9E9C4" FontSize="13" Text="FPS --"/>
+
+        <!-- Horizontal XMB rail -->
+        <Grid Margin="150,153,0,0" VerticalAlignment="Top" Height="100" ClipToBounds="False">
+            <ItemsControl x:Name="CategoryStrip" Width="2200" Height="100" HorizontalAlignment="Left" ItemsSource="{Binding Categories}" ItemContainerStyle="{StaticResource CategoryPresenter}">
+                <ItemsControl.ItemsPanel><ItemsPanelTemplate><Canvas/></ItemsPanelTemplate></ItemsControl.ItemsPanel>
+                <ItemsControl.RenderTransform><TranslateTransform x:Name="CategoryTranslate"/></ItemsControl.RenderTransform>
+            </ItemsControl>
+        </Grid>
+        <Border Height="1" Margin="160,253,160,0" VerticalAlignment="Top" Background="#448FC7E6" IsHitTestVisible="False"/>
+
+        <!-- A fixed-size viewport owns the clipping. NEVER apply a RenderTransform
+             to ItemsControl itself: its layout clip would move with it, causing
+             the bottom rows to disappear as the selected item moves down. -->
+        <Grid x:Name="ItemsViewport" Margin="170,289,0,0" Height="519" Width="760"
+              HorizontalAlignment="Left" VerticalAlignment="Top" ClipToBounds="True">
+            <ScrollViewer x:Name="ItemScrollHost"
+                          HorizontalAlignment="Stretch" VerticalAlignment="Stretch"
+                          HorizontalScrollBarVisibility="Disabled"
+                          VerticalScrollBarVisibility="Hidden"
+                          CanContentScroll="False" PanningMode="None"
+                          Focusable="False" IsTabStop="False"
+                          PreviewMouseWheel="ItemScrollHost_PreviewMouseWheel">
+                <StackPanel Orientation="Vertical">
+                    <ItemsControl x:Name="ItemRail" HorizontalAlignment="Left"
+                                  Width="715" ItemsSource="{Binding VisibleItems}"
+                                  ItemContainerStyle="{StaticResource NavPresenter}">
+                        <ItemsControl.ItemsPanel>
+                            <ItemsPanelTemplate><StackPanel Orientation="Vertical"/></ItemsPanelTemplate>
+                        </ItemsControl.ItemsPanel>
+                    </ItemsControl>
+                    <!-- Extends scroll range so even the final game can occupy
+                         the same top focus position as the first game. -->
+                    <Border x:Name="ListTailPadding" Height="425" IsHitTestVisible="False"/>
+                </StackPanel>
+            </ScrollViewer>
+        </Grid>
+
+        <!-- Selected game information on the right -->
+        <StackPanel x:Name="SidePreview" Width="365" MaxHeight="420" HorizontalAlignment="Right" VerticalAlignment="Center" Margin="0,85,95,80" IsHitTestVisible="False">
+            <TextBlock Text="KÜTÜPHANE" FontSize="12" FontWeight="Bold" Foreground="#88D9FF"/>
+            <TextBlock x:Name="SummaryTitle" Text="ChaosXMB" FontSize="36" TextWrapping="Wrap" FontWeight="Light" Foreground="White" Margin="0,15,0,8"/>
+            <TextBlock x:Name="SummaryMeta" Text="Oyun kütüphaneni keşfet" FontSize="15" Foreground="#BCD5E3" TextWrapping="Wrap" Margin="0,0,0,14"/>
+            <TextBlock x:Name="SummaryDescription" Text="Ayarlar menüsünden ilk oyununu ekleyebilirsin." FontSize="14" Foreground="#B3C3D2" TextWrapping="Wrap" MaxHeight="125" LineHeight="23"/>
+            <TextBlock Text="ENTER  ·  DETAYLAR" Foreground="#93D1F4" FontSize="12" FontWeight="SemiBold" Margin="0,29,0,0"/>
+        </StackPanel>
+
+        <DockPanel VerticalAlignment="Bottom" LastChildFill="False" Margin="57,0,66,33">
+            <TextBlock Text="◀ ▶  KATEGORİ     ▲ ▼  SEÇİM     ENTER  AÇ     ESC  ÇIKIŞ" Foreground="#A2C2D5" FontSize="13" DockPanel.Dock="Left"/>
+            <TextBlock x:Name="LibraryCount" Text="0 OYUN" Foreground="#81BFE0" FontSize="13" DockPanel.Dock="Right"/>
+        </DockPanel>
+
+        <!-- Full screen console-style game detail screen -->
+        <Grid x:Name="DetailsOverlay" Visibility="Collapsed" Opacity="0" Background="#F0081321" Panel.ZIndex="100">
+            <Image x:Name="DetailsHero" Stretch="UniformToFill" Opacity="0.50" IsHitTestVisible="False"/>
+            <Rectangle Fill="#A9000B1D" IsHitTestVisible="False"/>
+            <Rectangle IsHitTestVisible="False">
+                <Rectangle.Fill><LinearGradientBrush StartPoint="0,1" EndPoint="1,0"><GradientStop Color="#F4061222" Offset="0"/><GradientStop Color="#A5071425" Offset="0.70"/><GradientStop Color="#8C061524" Offset="1"/></LinearGradientBrush></Rectangle.Fill>
+            </Rectangle>
+            <ScrollViewer VerticalScrollBarVisibility="Auto" Margin="90,60,90,55">
+                <Grid MaxWidth="1320" HorizontalAlignment="Center">
+                    <Grid.RowDefinitions><RowDefinition Height="Auto"/><RowDefinition Height="*"/></Grid.RowDefinitions>
+                    <DockPanel Margin="0,0,0,62">
+                        <TextBlock Text="CHAOSXMB  /  GAME DETAILS" Foreground="#93D8FC" FontSize="16" DockPanel.Dock="Left"/>
+                        <TextBlock Text="ESC  GERİ" Foreground="#C5E2F1" FontSize="14" HorizontalAlignment="Right" DockPanel.Dock="Right"/>
+                    </DockPanel>
+                    <Grid Grid.Row="1">
+                        <Grid.ColumnDefinitions><ColumnDefinition Width="310"/><ColumnDefinition Width="56"/><ColumnDefinition Width="*"/></Grid.ColumnDefinitions>
+                        <Border Grid.Column="0" Background="#34506D" CornerRadius="8" Height="415" VerticalAlignment="Top">
+                            <Grid>
+                                <TextBlock Text="◈" FontFamily="Segoe UI Symbol" FontSize="85" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#A2D5F3"/>
+                                <Image x:Name="DetailsCover" Stretch="UniformToFill" RenderOptions.BitmapScalingMode="HighQuality"/>
+                            </Grid>
+                        </Border>
+                        <StackPanel Grid.Column="2">
+                            <TextBlock x:Name="DetailsTitle" FontSize="49" FontWeight="Light" Foreground="#F3F8FC" TextWrapping="Wrap"/>
+                            <TextBlock x:Name="DetailsGenre" FontSize="17" Foreground="#93D7F4" Margin="0,10,0,23" TextWrapping="Wrap"/>
+                            <TextBlock x:Name="DetailsDescription" FontSize="17" Foreground="#D3DEE7" TextWrapping="Wrap" LineHeight="27" MaxWidth="850" MaxHeight="220" Margin="0,0,0,30"/>
+                            <UniformGrid Columns="3" Margin="0,0,0,22">
+                                <StackPanel><TextBlock Text="GELİŞTİRİCİ" Foreground="#8FB7CC" FontSize="12"/><TextBlock x:Name="DetailsDeveloper" Foreground="White" FontSize="16" Margin="0,7,10,0" TextWrapping="Wrap"/></StackPanel>
+                                <StackPanel><TextBlock Text="ÇIKIŞ" Foreground="#8FB7CC" FontSize="12"/><TextBlock x:Name="DetailsRelease" Foreground="White" FontSize="16" Margin="0,7,10,0" TextWrapping="Wrap"/></StackPanel>
+                                <StackPanel><TextBlock Text="OYUN SÜRESİ" Foreground="#8FB7CC" FontSize="12"/><TextBlock x:Name="DetailsPlayTime" Foreground="White" FontSize="16" Margin="0,7,10,0"/></StackPanel>
+                            </UniformGrid>
+                            <TextBlock x:Name="DetailsLastPlayed" Foreground="#AAC9D8" FontSize="14" Margin="0,0,0,8" TextWrapping="Wrap"/>
+                            <TextBlock x:Name="DetailsSessionStats" Foreground="#8CBED8" FontSize="13" Margin="0,0,0,22" TextWrapping="Wrap"/>
+                            <WrapPanel>
+                                <Button x:Name="PlayButton" Content="▶  OYNA" Width="148" Background="#4F3E93C3" Margin="0,0,10,10" Click="Play_Click"/>
+                                <Button x:Name="FavoriteButton" Content="☆  FAVORİ" Width="150" Margin="0,0,10,10" Click="Favorite_Click"/>
+                                <Button Content="✎  DÜZENLE" Width="150" Margin="0,0,10,10" Click="Edit_Click"/>
+                                <Button Content="SİL" Width="105" Margin="0,0,10,10" Click="Remove_Click"/>
+                                <Button Content="GERİ" Width="110" Margin="0,0,10,10" Click="Back_Click"/>
+                            </WrapPanel>
+                        </StackPanel>
+                    </Grid>
+                </Grid>
+            </ScrollViewer>
+        </Grid>
+    </Grid>
+</Window>
