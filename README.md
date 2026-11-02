@@ -1,4 +1,5 @@
 # 🎮 ChaosXMB
+<img width="1907" height="1021" alt="screenshott" src="https://github.com/user-attachments/assets/6064bbdf-ebce-4036-908a-95e90bef4a3b" />
 
 **ChaosXMB**, klasik konsol (Cross Media Bar) arayüz deneyimini Windows masaüstüne taşıyan modern, akıcı ve bağımsız bir oyun kütüphanesi başlatıcısıdır (game launcher).
 
