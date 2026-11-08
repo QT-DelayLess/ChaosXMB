@@ -1,7 +1,8 @@
 # ChaosXMB
 
 PS3/PSP XMB esintili, tam ekran Windows oyun arayüzü. C# / WPF / .NET 8.
-<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/1b6b7d7c-4453-41d4-8ea4-818571c458c3" />
+<img width="1920" height="1080" alt="image" src="https://github.com/user-attachments/assets/1ed2a5f7-c755-474d-baef-ecdb94aea724" />
+
 
 Steam istemcisi gerekmez. Program oyunları sadece Windows üzerinden açar; oyun indirmez, lisans atlatmaz.
 
