@@ -1,0 +1,14 @@
+﻿.vs/
+.idea/
+**/bin/
+**/obj/
+**/TestResults/
+**/publish/
+*.user
+*.suo
+*.cache
+*.log
+.env
+.env.*
+!.env.example
+secrets.json
