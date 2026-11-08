@@ -101,5 +101,3 @@ Ana ekranda `F3` ile canlı FPS göstergesi açılıp kapatılır. WPF kare hız
 - Fare tekerleği seçimle senkronizedir; eski kendi kendine hover seçimi geri getirilmedi.
 - Oyun verileri, Steam/Epic/GOG taraması, oynama süreleri ve mevcut ekran tasarımı korunmuştur.
 - Kayıt dosyası `%LOCALAPPDATA%\ChaosXMB\games.json` olduğu gibi kalır; güncelleme için silmeyin.
-
-**Doğrulama:** XML yapısı / kod bağlantıları statik olarak kontrol edilmiştir. Windows WPF runtime bu ortamda bulunmadığı için gerçek derleme ve ekran görüntüsü doğrulaması mümkün değildir.
